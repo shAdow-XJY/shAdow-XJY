@@ -8,4 +8,8 @@
 <br>
 <div></div>
 <code>Hello !!!</code>
+<img alt="hello" src="my-custom.css"/>
+<img alt="hello" src="./my-custom.css"/>
+<img alt="hello" src="https://raw.githubusercontent.com/shAdow-XJY/shAdow-XJY/master/my-custom.css"/>
+
 <div class="abc">Pia!(ｏ ‵-′)ノ”(ノ﹏<。)</div>
