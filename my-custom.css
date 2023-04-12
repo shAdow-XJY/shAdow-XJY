@@ -1,9 +1,14 @@
 /* 添加一个红色的标题 */
 h1 {
-    color: red;
+    color: red !important;
 }
 
 /* 添加一个背景颜色为灰色的代码块 */
 code {
-    background-color: #36a52a;
+    background-color: #36a52a !important;
+}
+
+.abc {
+    color: brown !important;
+    background: dodgerblue !important;
 }
