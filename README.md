@@ -11,12 +11,3 @@
   <a href = "mailto:israelhurtarte@gmail.com"><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a>
   <a href="https://www.linkedin.com/in/israel-hurtarte-pinto-738245218" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%23333?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> 
 </div> -->
-<link rel="stylesheet" href="./style.css">
-<div class="container">
-    <div class="avatar"></div>
-    <h1 class="name">John Doe</h1>
-    <code>asdasdsadasdas</code>
-</div>
-.Box-body.p-4 {
-    background: tomato !important;
-}
