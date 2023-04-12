@@ -8,6 +8,33 @@
 <br>
 <div></div>
 <code>Hello !!!</code>
+<head>
+  <link rel="stylesheet" type="text/css" href="./my-custom.css">
+</head>
+<body>
+  <h1>My Custom Page</h1>
+  <p>This is some text that I want to style.</p>
+  <ul>
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+  </ul>
+</body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="./my-custom.css">
+</head>
+<body>
+  <h1>My Custom Page</h1>
+  <p>This is some text that I want to style.</p>
+  <ul>
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+  </ul>
+</body>
+</html>
 <img alt="hello" src="my-custom.css"/>
 <img alt="hello" src="./my-custom.css"/>
 <img alt="hello" src="https://raw.githubusercontent.com/shAdow-XJY/shAdow-XJY/master/my-custom.css"/>
