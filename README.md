@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/shAdow-XJY/shAdow-XJY/master/my-custom.css">
 <h1 align="center">Hi 👋, I'm shAdow-XJY!</h1>
 <div align="center">
   <a href="https://github.com/shAdow-XJY">
@@ -5,6 +6,7 @@
   <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=shAdow-XJY&layout=compact&langs_count=7&theme=algolia&hide=xslt,cmake,python,powershell,css,c,c#"/>
 </div>
 <br>
+<div></div>
 <!-- <div align ="center"> 
   <a href="https://www.instagram.com/isra_legend" target="_blank"><img src="https://img.shields.io/badge/-Instagram-%23333?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a>
  <a href="https://www.facebook.com/israel.pinto.505/" target="_blank"><img src="https://img.shields.io/badge/Facebook-%23333?style=for-the-badge&logo=facebook&logoColor=white" target="_blank"></a> 
