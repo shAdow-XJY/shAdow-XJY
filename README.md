@@ -36,7 +36,7 @@
 
 <div class="container">
     <div class="avatar"></div>
-    <div class="name">John Doe</div>
+    <div class="name" style="background: red;">John Doe</div>
 </div>
 .Box-body.p-4 {
     background: tomato !important;
