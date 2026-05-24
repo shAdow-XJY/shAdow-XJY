@@ -1,0 +1,99 @@
+/* ─────────────────────────────────────────────────────────────
+   theme.css — GitHub dark theme (Figma design spec)
+   颜色系统来自设计稿：#0d1117 / #58a6ff / #3fb950
+   ───────────────────────────────────────────────────────────── */
+
+@layer theme {
+  :root {
+    /* GitHub dark palette */
+    --background:      #0d1117;
+    --foreground:      #e6edf3;
+
+    --card:            #161b22;
+    --card-foreground: #e6edf3;
+
+    --popover:         #161b22;
+    --popover-foreground: #e6edf3;
+
+    /* Primary = GitHub blue */
+    --primary:         #58a6ff;
+    --primary-foreground: #0d1117;
+
+    --secondary:       #21262d;
+    --secondary-foreground: #e6edf3;
+
+    --muted:           #21262d;
+    --muted-foreground: #8b949e;
+
+    /* Accent = GitHub green */
+    --accent:          #3fb950;
+    --accent-foreground: #0d1117;
+
+    --destructive:     #f85149;
+    --destructive-foreground: #ffffff;
+
+    --border:          #30363d;
+    --input:           #21262d;
+    --input-background: #21262d;
+
+    --ring:            #58a6ff;
+
+    /* Chart colors */
+    --chart-1: #00B4AB;
+    --chart-2: #f34b7d;
+    --chart-3: #3178c6;
+    --chart-4: #b07219;
+    --chart-5: #41b883;
+
+    --radius: 0.75rem;
+
+    /* Typography */
+    --font-sans:  'Outfit', system-ui, sans-serif;
+    --font-mono:  'JetBrains Mono', 'Fira Code', monospace;
+
+    /* Custom shadows */
+    --shadow-card: 0 0 0 1px #30363d, 0 8px 32px rgba(0,0,0,0.4);
+    --shadow-dock: 0 0 0 1px rgba(88,166,255,0.08), 0 20px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+}
+
+/* Tailwind v3 @theme integration */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom selection */
+  ::selection {
+    background-color: rgba(88, 166, 255, 0.25);
+    color: var(--foreground);
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #30363d;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #484f58;
+  }
+}

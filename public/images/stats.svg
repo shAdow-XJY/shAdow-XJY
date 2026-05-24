@@ -1,0 +1,20 @@
+<svg width="370" height="150" viewBox="0 0 370 150" xmlns="http://www.w3.org/2000/svg">
+  <rect width="370" height="150" rx="10" fill="#003d2d" stroke="#00e676" stroke-width="1"/>
+  <text x="20" y="28" font-size="15" fill="#ffffff" font-family="monospace" font-weight="bold">@shAdow-XJY</text>
+  <line x1="20" y1="40" x2="350" y2="40" stroke="#00e676" stroke-width="0.5" stroke-opacity="0.5"/>
+  <g transform="translate(0,55)">
+    <text x="30" y="12" font-size="13" fill="#00e676" font-family="monospace">◈</text>
+    <text x="60" y="14" font-size="13" fill="#ffffff" font-family="monospace">Repos</text>
+    <text x="280" y="14" font-size="13" fill="#ffffff" font-family="monospace" text-anchor="end" font-weight="600">16</text>
+  </g>
+<g transform="translate(0,80)">
+    <text x="30" y="12" font-size="13" fill="#00e676" font-family="monospace">◉</text>
+    <text x="60" y="14" font-size="13" fill="#ffffff" font-family="monospace">Followers</text>
+    <text x="280" y="14" font-size="13" fill="#ffffff" font-family="monospace" text-anchor="end" font-weight="600">5</text>
+  </g>
+<g transform="translate(0,105)">
+    <text x="30" y="12" font-size="13" fill="#00e676" font-family="monospace">◎</text>
+    <text x="60" y="14" font-size="13" fill="#ffffff" font-family="monospace">Following</text>
+    <text x="280" y="14" font-size="13" fill="#ffffff" font-family="monospace" text-anchor="end" font-weight="600">3</text>
+  </g>
+</svg>

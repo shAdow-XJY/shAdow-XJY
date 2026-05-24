@@ -1,0 +1,28 @@
+{
+  "name": "shadow-xjy-profile",
+  "version": "1.0.0",
+  "description": "shAdow-XJY GitHub Profile — static page + pre-generated stats cards",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predev": "rm -rf node_modules/.vite && npm run generate:svgs",
+    "dev": "astro dev --host localhost --port 4321 --strictPort",
+    "build": "astro build",
+    "build:all": "npm run generate:svgs && npm run build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "generate:svgs": "node scripts/generate-svgs.ts"
+  },
+  "dependencies": {
+    "@astrojs/react": "^4.4.2",
+    "@astrojs/tailwind": "^6.0.2",
+    "@shadow-xjy-website/web-common": "latest",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "tailwindcss": "^3.4.19"
+  },
+  "devDependencies": {
+    "astro": "^5.16.0",
+    "lucide-react": "0.562.0"
+  }
+}

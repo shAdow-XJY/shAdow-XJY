@@ -1,0 +1,82 @@
+---
+/**
+ * StatsCard.astro
+ * GitHub 统计卡片 — SVG 内联，静态渲染
+ * 数据由 props 传入，由父组件提供
+ */
+interface Props {
+  repos: number;
+  followers: number;
+  following: number;
+  stars?: number;
+  commits?: number;
+}
+
+const { repos, followers, following, stars = 24, commits = 387 } = Astro.props;
+
+const W = 500;
+const H = 195;
+const colW = W / 3;
+---
+
+<svg viewBox={`0 0 ${W} ${H}`} width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+  <defs>
+    <linearGradient id="sg-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c2128" />
+      <stop offset="100%" stop-color="#161b22" />
+    </linearGradient>
+    <linearGradient id="sg-accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#58a6ff" />
+      <stop offset="55%" stop-color="#3fb950" />
+      <stop offset="100%" stop-color="#3fb950" stop-opacity="0" />
+    </linearGradient>
+    <filter id="sg-glow">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Card background -->
+  <rect width={W} height={H} rx="12" fill="url(#sg-bg)" stroke="#30363d" stroke-width="1" />
+
+  <!-- Top accent line -->
+  <rect width={W * 0.72} height="2" rx="1" fill="url(#sg-accent)" filter="url(#sg-glow)" />
+
+  <!-- Username -->
+  <text x="20" y="36" font-family="'JetBrains Mono', monospace" font-size="13" fill="#58a6ff" font-weight="600">@shAdow-XJY</text>
+
+  <!-- Label -->
+  <text x={W - 18} y="36" font-family="'JetBrains Mono', monospace" font-size="11" fill="#3fb950" text-anchor="end" font-weight="500" letter-spacing="0.5">github stats</text>
+
+  <!-- Header divider -->
+  <line x1="16" y1="48" x2={W - 16} y2="48" stroke="#21262d" stroke-width="1" />
+
+  <!-- Stat columns -->
+  {[
+    { label: 'REPOS',      value: repos },
+    { label: 'FOLLOWERS',  value: followers },
+    { label: 'FOLLOWING',  value: following },
+  ].map(({ label, value }, i) => {
+    const cx = colW * i + colW / 2;
+    return (
+      <g>
+        <text x={cx} y="104" font-family="'JetBrains Mono', monospace" font-size="36" fill="#e6edf3" font-weight="700" text-anchor="middle">{value}</text>
+        <text x={cx} y="124" font-family="'JetBrains Mono', monospace" font-size="9.5" fill="#8b949e" text-anchor="middle" letter-spacing="1.8">{label}</text>
+      </g>
+    );
+  })}
+
+  <!-- Column separators -->
+  <line x1={colW} y1="58" x2={colW} y2="138" stroke="#21262d" stroke-width="1" />
+  <line x1={colW * 2} y1="58" x2={colW * 2} y2="138" stroke="#21262d" stroke-width="1" />
+
+  <!-- Bottom divider -->
+  <line x1="16" y1="142" x2={W - 16} y2="142" stroke="#21262d" stroke-width="1" />
+
+  <!-- Stars -->
+  <text x={W / 4} y="166" font-family="'JetBrains Mono', monospace" font-size="11" fill="#3fb950" text-anchor="middle" font-weight="500">&#9733; {stars} stars earned</text>
+
+  <!-- Commits -->
+  <line x1={W / 2} y1="150" x2={W / 2} y2="176" stroke="#21262d" stroke-width="1" />
+  <text x={W * 3 / 4} y="166" font-family="'JetBrains Mono', monospace" font-size="11" fill="#8b949e" text-anchor="middle">{commits} commits (2024)</text>
+</svg>

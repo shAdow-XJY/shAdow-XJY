@@ -1,0 +1,20 @@
+{
+  "basePath": "/",
+  "canonicalHost": "shadowplusing.website",
+  "canonicalProtocol": "https",
+  "adsense": {
+    "enabled": false,
+    "clientId": "ca-pub-7976598317999728"
+  },
+  "analytics": {
+    "ga4": {
+      "enabled": false
+    },
+    "clarity": {
+      "enabled": false
+    },
+    "yandex": {
+      "enabled": false
+    }
+  }
+}

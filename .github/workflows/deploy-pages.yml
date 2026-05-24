@@ -1,0 +1,63 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Configure GitHub Packages for @shadow-xjy-website/web-common
+        run: |
+          cat >> .npmrc << 'EOF'
+          @shadow-xjy-website:registry=https://npm.pkg.github.com
+          //npm.pkg.github.com/:_authToken=${{ secrets.GH_PACKAGES_TOKEN }}
+          EOF
+        env:
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+
+      - name: Install dependencies
+        run: npm install
+
+      # Step 1: 预生成 SVG 统计卡片（写入 public/images/）
+      - name: Generate SVG stats cards
+        run: node scripts/generate-svgs.ts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 2: Astro 静态构建
+      - name: Build Astro
+        run: npm run build
+
+      # 构建产物在 dist/ 根目录，HTML 引用 /shAdow-XJY/images/
+      # 复制到 docs/shAdow-XJY/ 以匹配路径
+      - name: Copy dist to docs/shAdow-XJY
+        run: mkdir -p docs/shAdow-XJY && cp -r dist/. docs/shAdow-XJY/
+
+      - name: Add .nojekyll
+        run: touch docs/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

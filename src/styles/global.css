@@ -1,0 +1,18 @@
+/* ─────────────────────────────────────────────────────────────
+   global.css — base resets + font imports
+   ───────────────────────────────────────────────────────────── */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+@import './theme.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+}
