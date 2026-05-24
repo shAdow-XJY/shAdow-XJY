@@ -21,7 +21,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Configure GitHub Packages for @shadow-xjy-website/web-common
         run: |
@@ -37,7 +37,7 @@ jobs:
 
       # Step 1: 预生成 SVG 统计卡片（写入 public/images/）
       - name: Generate SVG stats cards
-        run: node scripts/generate-svgs.ts
+        run: npx tsx scripts/generate-svgs.ts
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

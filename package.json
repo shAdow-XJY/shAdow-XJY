@@ -11,7 +11,7 @@
     "build:all": "npm run generate:svgs && npm run build",
     "preview": "astro preview",
     "astro": "astro",
-    "generate:svgs": "node scripts/generate-svgs.ts"
+    "generate:svgs": "npx tsx scripts/generate-svgs.ts"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
