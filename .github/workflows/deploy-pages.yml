@@ -45,18 +45,14 @@ jobs:
       - name: Build Astro
         run: npm run build
 
-      # 构建产物在 dist/ 根目录，HTML 引用 /shAdow-XJY/images/
-      # 复制到 docs/shAdow-XJY/ 以匹配路径
-      - name: Copy dist to docs/shAdow-XJY
-        run: mkdir -p docs/shAdow-XJY && cp -r dist/. docs/shAdow-XJY/
-
+      # 构建产物在 dist/ 根目录
       - name: Add .nojekyll
-        run: touch docs/.nojekyll
+        run: touch dist/.nojekyll
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs
+          path: dist
 
       - name: Deploy to GitHub Pages
         id: deployment
