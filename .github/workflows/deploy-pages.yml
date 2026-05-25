@@ -42,7 +42,7 @@ jobs:
       - name: Generate SVG stats cards
         run: npx tsx scripts/generate-svgs.ts
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       # Step 2: Astro 静态构建
       - name: Build Astro
