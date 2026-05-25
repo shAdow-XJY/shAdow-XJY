@@ -2,7 +2,6 @@
  * scripts/generate-svgs.ts
  *
  * 预生成 GitHub 统计 SVG 图片并同步到 index.astro。
- * 移除多余主题，只保留与 Web 页面一致的三张卡片 (stats, streak, langs)。
  */
 
 import { writeFileSync, mkdirSync, readFileSync, rmSync } from 'fs';
@@ -14,219 +13,204 @@ const OUT_DIR = join(__dirname, '..', 'public', 'images');
 const INDEX_ASTRO_PATH = join(__dirname, '..', 'src', 'pages', 'index.astro');
 
 const LANG_COLORS: Record<string, string> = {
-  Dart:       '#00B4AB',
-  'C++':      '#f34b7d',
-  TypeScript: '#3178c6',
-  CSS:        '#563d7c',
-  Java:       '#b07219',
-  C:          '#555555',
-  Vue:        '#41b883',
-  JavaScript: '#f7df1e',
-  Python:     '#3572A5',
-  Swift:      '#F05138',
-  Kotlin:     '#A97BFF',
-  Rust:       '#dea584',
-  Go:         '#00ADD8',
-  Ruby:       '#701516',
-  PHP:        '#4F5D95',
-  HTML:       '#e34c26',
-  Shell:      '#89e051',
-  Svelte:     '#ff3e00',
-  Lua:        '#000080',
+  Dart: "#00B4AB", "C++": "#f34b7d", TypeScript: "#3178c6", CSS: "#563d7c", Java: "#b07219", C: "#555555",
+  Vue: "#41b883", JavaScript: "#f1e05a", Shell: "#89e051", HTML: "#e34c26", Python: "#3572A5"
 };
 
-// ─── GitHub API 请求 ─────────────────────────────────────
-async function fetchGitHub(path: string) {
-  const res = await fetch(`https://api.github.com${path}`, {
-    headers: {
-      'Accept': 'application/vnd.github+json',
-      'User-Agent': 'shAdow-XJY-profile-svg',
-      ...(process.env.GH_TOKEN ? { 'Authorization': `Bearer ${process.env.GH_TOKEN}` } : {}),
-    },
-  });
-  if (!res.ok) throw new Error(`GitHub API ${path} → ${res.status}`);
-  return res.json();
-}
+const ACCOUNTS_CONFIG: any[] = [
+  { handle: 'shAdow-XJY', type: 'personal', accent: '#58a6ff', accentB: '#3fb950', mockAge: '5.8y' },
+  { handle: 'shAdow-XJY-Manager', type: 'org', accent: '#f0883e', accentB: '#ffa657', mockAge: '2.1y' },
+  { handle: 'shAdow-XJY-Website', type: 'org', accent: '#bc8cff', accentB: '#79c0ff', mockAge: '1.5y' },
+];
 
-// ─── SVG 生成器（复刻 Astro 组件的高保真版本） ───────────────
+function escapeXml(str: string) { return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
-function escapeXml(str: string) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
-function generateStatsSvg({ repos, followers, following, stars, commits }: any) {
-  const W = 500;
-  const H = 195;
-  const colW = W / 3;
+function generateStatsOverviewSvg({ handle, accent, accentB, stats, type }: any, uid: string) {
+  const W = 500, H = 170, colW = W / 4;
   
-  const cols = [
-    { label: 'REPOS', value: repos },
-    { label: 'FOLLOWERS', value: followers },
-    { label: 'FOLLOWING', value: following },
-  ].map((o, i) => {
-    const cx = colW * i + colW / 2;
+  // Custom rendering logic for each column to match requested color format
+  const columns = [
+    { label: "PUBLIC REPO", tag: `<text x="${colW * 0 + colW / 2}" y="108" font-family="'JetBrains Mono', monospace" font-size="32" fill="${accent}" font-weight="700" text-anchor="middle">${stats.publicRepos || 0}</text>`, labelCx: colW * 0 + colW / 2 },
+    { label: "PRIVATE REPO", tag: `<text x="${colW * 1 + colW / 2}" y="108" font-family="'JetBrains Mono', monospace" font-size="32" fill="${accentB}" font-weight="700" text-anchor="middle">${stats.privateRepos || 0}</text>`, labelCx: colW * 1 + colW / 2 },
+    { label: "COMMITS", tag: `<text font-family="'JetBrains Mono', monospace" font-weight="700" text-anchor="middle"><tspan x="${colW * 2 + colW / 2}" y="78" font-size="20" fill="${accent}">${stats.publicCommits || 0}</tspan><tspan x="${colW * 2 + colW / 2}" y="98" font-size="14" fill="#8b949e">+</tspan><tspan x="${colW * 2 + colW / 2}" y="118" font-size="20" fill="${accentB}">${stats.privateCommits || 0}</tspan></text>`, labelCx: colW * 2 + colW / 2 },
+    { label: "ACCOUNT AGE", tag: `<text x="${colW * 3 + colW / 2}" y="108" font-family="'JetBrains Mono', monospace" font-size="32" fill="${accentB}" font-weight="700" text-anchor="middle">${stats.accountAge || '0y'}</text>`, labelCx: colW * 3 + colW / 2 },
+  ].map((c) => {
     return `
       <g>
-        <text x="${cx}" y="104" font-family="'JetBrains Mono', monospace" font-size="36" fill="#e6edf3" font-weight="700" text-anchor="middle">${o.value}</text>
-        <text x="${cx}" y="124" font-family="'JetBrains Mono', monospace" font-size="9.5" fill="#8b949e" text-anchor="middle" letter-spacing="1.8">${o.label}</text>
+        ${c.tag}
+        <text x="${c.labelCx}" y="128" font-family="'JetBrains Mono', monospace" font-size="9" fill="#8b949e" text-anchor="middle" letter-spacing="1.1">${escapeXml(c.label)}</text>
       </g>`;
   }).join('');
 
   return `<svg viewBox="0 0 ${W} ${H}" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;">
   <defs>
-    <linearGradient id="sg-bg" x1="0" y1="0" x2="0" y2="1">
+    <linearGradient id="ss-bg-${uid}" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#1c2128" />
       <stop offset="100%" stop-color="#161b22" />
     </linearGradient>
-    <linearGradient id="sg-accent" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#58a6ff" />
-      <stop offset="55%" stop-color="#3fb950" />
-      <stop offset="100%" stop-color="#3fb950" stop-opacity="0" />
+    <linearGradient id="ss-acc-${uid}" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="${accent}" />
+      <stop offset="55%" stop-color="${accentB}" />
+      <stop offset="100%" stop-color="${accentB}" stop-opacity="0" />
     </linearGradient>
-    <filter id="sg-glow">
-      <feGaussianBlur stdDeviation="2" result="blur" />
+    <filter id="ss-glow-${uid}">
+      <feGaussianBlur stdDeviation="2.5" result="blur" />
       <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
     </filter>
+    <clipPath id="clip-corners-${uid}">
+      <rect width="${W}" height="${H}" rx="12" />
+    </clipPath>
   </defs>
-  <rect width="${W}" height="${H}" rx="12" fill="url(#sg-bg)" stroke="#30363d" stroke-width="1" />
-  <rect width="${W * 0.72}" height="2" rx="1" fill="url(#sg-accent)" filter="url(#sg-glow)" />
-  <text x="20" y="36" font-family="'JetBrains Mono', monospace" font-size="13" fill="#58a6ff" font-weight="600">@shAdow-XJY</text>
-  <text x="${W - 18}" y="36" font-family="'JetBrains Mono', monospace" font-size="11" fill="#3fb950" text-anchor="end" font-weight="500" letter-spacing="0.5">github stats</text>
-  <line x1="16" y1="48" x2="${W - 16}" y2="48" stroke="#21262d" stroke-width="1" />
-  ${cols}
-  <line x1="${colW}" y1="58" x2="${colW}" y2="138" stroke="#21262d" stroke-width="1" />
-  <line x1="${colW * 2}" y1="58" x2="${colW * 2}" y2="138" stroke="#21262d" stroke-width="1" />
-  <line x1="16" y1="142" x2="${W - 16}" y2="142" stroke="#21262d" stroke-width="1" />
-  <text x="${W / 4}" y="166" font-family="'JetBrains Mono', monospace" font-size="11" fill="#3fb950" text-anchor="middle" font-weight="500">&#9733; ${stars} stars earned</text>
-  <line x1="${W / 2}" y1="150" x2="${W / 2}" y2="176" stroke="#21262d" stroke-width="1" />
-  <text x="${W * 3 / 4}" y="166" font-family="'JetBrains Mono', monospace" font-size="11" fill="#8b949e" text-anchor="middle">${commits} commits (2024)</text>
-</svg>`;
-}
-
-function generateStreakSvg({ commits }: any) {
-  const W = 500;
-  const H = 130;
-  const cols = [
-    { label: 'TOTAL CONTRIBUTIONS', value: commits.toString(), x: 90 },
-    { label: 'CURRENT STREAK', value: `12d`, x: 270 },
-    { label: 'LONGEST STREAK', value: `21d`, x: 430 },
-  ].map(({ label, value, x }) => `
-    <g>
-      <text x="${x}" y="86" font-family="'JetBrains Mono', monospace" font-size="26" fill="#e6edf3" font-weight="700" text-anchor="middle">${value}</text>
-      <text x="${x}" y="106" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#8b949e" text-anchor="middle" letter-spacing="1.2">${label}</text>
-    </g>`).join('');
-
-  return `<svg viewBox="0 0 ${W} ${H}" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;">
-  <defs>
-    <linearGradient id="str-bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#1c2128" />
-      <stop offset="100%" stop-color="#161b22" />
-    </linearGradient>
-    <linearGradient id="str-accent" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#f0883e" />
-      <stop offset="70%" stop-color="#f85149" />
-      <stop offset="100%" stop-color="#f85149" stop-opacity="0" />
-    </linearGradient>
-    <filter id="str-glow">
-      <feGaussianBlur stdDeviation="2" result="blur" />
-      <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-    </filter>
-  </defs>
-  <rect width="${W}" height="${H}" rx="12" fill="url(#str-bg)" stroke="#30363d" stroke-width="1" />
-  <rect width="${W * 0.55}" height="2" rx="1" fill="url(#str-accent)" filter="url(#str-glow)" />
-  <text x="20" y="34" font-family="'JetBrains Mono', monospace" font-size="13" fill="#f0883e" font-weight="600">Contribution Streak</text>
+  <g clip-path="url(#clip-corners-${uid})">
+    <rect width="${W}" height="${H}" rx="12" fill="url(#ss-bg-${uid})" stroke="#30363d" stroke-width="1" />
+    <rect width="${W * 0.68}" height="2" fill="url(#ss-acc-${uid})" filter="url(#ss-glow-${uid})" />
+  </g>
+  <rect width="${W}" height="${H}" rx="12" fill="none" stroke="#30363d" stroke-width="1" />
+  <text x="20" y="34" font-family="'JetBrains Mono', monospace" font-size="12.5" fill="${accent}" font-weight="600">@${escapeXml(handle)}</text>
+  <text x="${W - 18}" y="34" font-family="'JetBrains Mono', monospace" font-size="10.5" fill="${accentB}" text-anchor="end" font-weight="500">stats &amp; overview</text>
   <line x1="16" y1="46" x2="${W - 16}" y2="46" stroke="#21262d" stroke-width="1" />
-  ${cols}
-  <line x1="${W / 3}" y1="56" x2="${W / 3}" y2="115" stroke="#21262d" stroke-width="1" />
-  <line x1="${W * 2 / 3}" y1="56" x2="${W * 2 / 3}" y2="115" stroke="#21262d" stroke-width="1" />
+  ${columns}
+  ${[1, 2, 3].map(i => `<line x1="${colW * i}" y1="56" x2="${colW * i}" y2="140" stroke="#21262d" stroke-width="1" />`).join('')}
+  <line x1="16" y1="143" x2="${W - 16}" y2="143" stroke="#21262d" stroke-width="1" />
+  <text x="${W / 2}" y="160" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8b949e" text-anchor="middle">activity (${new Date().getFullYear()})</text>
 </svg>`;
 }
 
-function generateLangsSvg({ languages }: any) {
-  const W = 500;
-  const BAR_Y = 62;
-  const BAR_H = 10;
-  const INNER_W = W - 40;
-  const LIST_START = 100;
-  const ROW_H = 28;
-  const LANG_BAR_X = 170;
-  const LANG_BAR_W = INNER_W - 150;
+function generateLangsSvg({ languages, accent, accentB }: any, uid: string) {
+  const W = 500, BAR_Y = 62, BAR_H = 10, INNER_W = W - 40, LIST_START = 100, ROW_H = 28;
   const H = LIST_START + languages.length * ROW_H + 20;
 
-  let curX = 20;
-  const segments = languages.map(({ name, pct }: any) => {
-    const segW = (pct / 100) * INNER_W;
-    const color = LANG_COLORS[name] ?? '#8b949e';
-    const seg = `<rect x="${curX}" y="${BAR_Y}" width="${segW}" height="${BAR_H}" fill="${color}" clip-path="url(#stacked-bar-clip)" />`;
-    curX += segW;
-    return seg;
-  }).join('');
-
-  const rows = languages.map(({ name, pct }: any, i: number) => {
-    const y = LIST_START + i * ROW_H;
-    const barW = (pct / 100) * LANG_BAR_W;
-    const color = LANG_COLORS[name] ?? '#8b949e';
-    const isLast = i === languages.length - 1;
-    const lineHtml = !isLast ? `<line x1="16" y1="${y + ROW_H - 2}" x2="${W - 16}" y2="${y + ROW_H - 2}" stroke="#21262d" stroke-width="1" />` : '';
-
-    return `
-      <g>
-        <circle cx="28" cy="${y + 5}" r="4" fill="${color}" />
-        <text x="42" y="${y + 10}" font-family="'JetBrains Mono', monospace" font-size="12" fill="#e6edf3">${escapeXml(name)}</text>
-        <rect x="${LANG_BAR_X}" y="${y + 1}" width="${LANG_BAR_W}" height="8" rx="4" fill="#21262d" />
-        <rect x="${LANG_BAR_X}" y="${y + 1}" width="${barW}" height="8" rx="4" fill="${color}" opacity="0.9" />
-        <text x="${W - 18}" y="${y + 10}" font-family="'JetBrains Mono', monospace" font-size="11" fill="#8b949e" text-anchor="end">${pct.toFixed(1)}%</text>
-        ${lineHtml}
-      </g>`;
-  }).join('');
+  let segs = '', rows = '', currX = 20;
+  languages.forEach(({ name, pct }: any, i: number) => {
+    const c = LANG_COLORS[name] || '#8b949e';
+    const w = (pct / 100) * INNER_W;
+    const isFirst = i === 0, isLast = i === languages.length - 1;
+    segs += `
+      ${isFirst ? `<rect x="${currX}" y="${BAR_Y}" width="${w}" height="${BAR_H}" fill="${c}" rx="5"/>
+                   <rect x="${currX + w - 5}" y="${BAR_Y}" width="5" height="${BAR_H}" fill="${c}"/>` :
+        isLast ? `<rect x="${currX}" y="${BAR_Y}" width="${w}" height="${BAR_H}" fill="${c}" rx="5"/>
+                  <rect x="${currX}" y="${BAR_Y}" width="5" height="${BAR_H}" fill="${c}"/>` :
+          `<rect x="${currX}" y="${BAR_Y}" width="${w}" height="${BAR_H}" fill="${c}"/>`}
+    `;
+    rows += `
+      <circle cx="30" cy="${LIST_START + i * ROW_H + 5}" r="4" fill="${c}" />
+      <text x="44" y="${LIST_START + i * ROW_H + 9}" font-family="'JetBrains Mono', monospace" font-size="12" fill="#e6edf3" font-weight="600">${escapeXml(name)}</text>
+      <text x="${W - 20}" y="${LIST_START + i * ROW_H + 9}" font-family="'JetBrains Mono', monospace" font-size="12" fill="#8b949e" text-anchor="end">${pct}%</text>
+    `;
+    currX += w;
+  });
 
   return `<svg viewBox="0 0 ${W} ${H}" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;">
   <defs>
-    <linearGradient id="lg-bg" x1="0" y1="0" x2="0" y2="1">
+    <linearGradient id="l-bg-${uid}" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#1c2128" />
       <stop offset="100%" stop-color="#161b22" />
     </linearGradient>
-    <linearGradient id="lg-accent" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#3fb950" />
-      <stop offset="60%" stop-color="#58a6ff" />
-      <stop offset="100%" stop-color="#58a6ff" stop-opacity="0" />
-    </linearGradient>
-    <clipPath id="stacked-bar-clip">
-      <rect x="20" y="${BAR_Y}" width="${INNER_W}" height="${BAR_H}" rx="5" />
-    </clipPath>
-    <filter id="lg-glow">
-      <feGaussianBlur stdDeviation="2" result="blur" />
-      <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-    </filter>
   </defs>
-  <rect width="${W}" height="${H}" rx="12" fill="url(#lg-bg)" stroke="#30363d" stroke-width="1" />
-  <rect width="${W * 0.58}" height="2" rx="1" fill="url(#lg-accent)" filter="url(#lg-glow)" />
-  <text x="20" y="34" font-family="'JetBrains Mono', monospace" font-size="13" fill="#3fb950" font-weight="600">Top Languages</text>
-  <text x="${W - 18}" y="34" font-family="'JetBrains Mono', monospace" font-size="11" fill="#8b949e" text-anchor="end">by repo</text>
+  <rect width="${W}" height="${H}" rx="12" fill="url(#l-bg-${uid})" stroke="#30363d" stroke-width="1" />
+  <text x="20" y="34" font-family="'JetBrains Mono', monospace" font-size="12.5" fill="${accent}" font-weight="600">@${escapeXml(uid.replace(/[^A-Za-z\-]/g, ''))}</text>
+  <text x="${W - 18}" y="34" font-family="'JetBrains Mono', monospace" font-size="10.5" fill="#8b949e" text-anchor="end" font-weight="500">top languages</text>
   <line x1="16" y1="46" x2="${W - 16}" y2="46" stroke="#21262d" stroke-width="1" />
   <rect x="20" y="${BAR_Y}" width="${INNER_W}" height="${BAR_H}" rx="5" fill="#21262d" />
-  ${segments}
+  ${segs}
   <line x1="16" y1="86" x2="${W - 16}" y2="86" stroke="#21262d" stroke-width="1" />
   ${rows}
 </svg>`;
 }
 
-// ─── 主流程 ─────────────────────────────────────────────
-async function main() {
-  console.log('📡 Fetching GitHub data...');
-  rmSync(OUT_DIR, { recursive: true, force: true });
-  mkdirSync(OUT_DIR, { recursive: true });
+async function getAccountData(conf: typeof ACCOUNTS_CONFIG[0]) {
+  const token = process.env.GH_TOKEN;
+  if (!token) {
+    throw new Error('GH_TOKEN is missing. Cannot fetch GraphQL API.');
+  }
 
-  const [user, repos] = await Promise.all([
-    fetchGitHub('/users/shAdow-XJY'),
-    fetchGitHub('/users/shAdow-XJY/repos?per_page=100&sort=updated'),
-  ]);
+  const isOrg = conf.type === 'org';
+  const query = `
+    query getStats($login: String!) {
+      user(login: $login) @skip(if: ${isOrg}) {
+        createdAt
+        ...RepoStats
+      }
+      organization(login: $login) @include(if: ${isOrg}) {
+        createdAt
+        ...RepoStats
+      }
+    }
+    fragment RepoStats on RepositoryOwner {
+      repositories(first: 100, ownerAffiliations: [OWNER], isFork: false) {
+        nodes {
+          isPrivate
+          primaryLanguage {
+            name
+          }
+          defaultBranchRef {
+            target {
+              ... on Commit {
+                history {
+                  totalCount
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
 
-  let stars = 0;
+  const res = await fetch('https://api.github.com/graphql', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'User-Agent': 'shAdow-XJY-profile-svg'
+    },
+    body: JSON.stringify({
+      query,
+      variables: { login: conf.handle }
+    })
+  });
+
+  if (!res.ok) {
+    throw new Error(`GraphQL API error: ${res.status} ${await res.text()}`);
+  }
+
+  const body = await res.json() as any;
+  if (body.errors) {
+    throw new Error(`GraphQL Errors: ${JSON.stringify(body.errors)}`);
+  }
+
+  const owner = isOrg ? body.data.organization : body.data.user;
+  if (!owner) {
+    throw new Error(`GitHub identity ${conf.handle} not found or inaccessible.`);
+  }
+
+  let publicRepos = 0, privateRepos = 0;
+  let publicCommits = 0, privateCommits = 0;
   const langTotals: Record<string, number> = {};
-  for (const repo of repos) {
-    stars += repo.stargazers_count || 0;
-    if (repo.language) langTotals[repo.language] = (langTotals[repo.language] || 0) + 1;
+
+  for (const repo of owner.repositories.nodes) {
+    const isPrivate = repo.isPrivate;
+    const commits = repo.defaultBranchRef?.target?.history?.totalCount || 0;
+    
+    if (isPrivate) {
+      privateRepos++;
+      privateCommits += commits;
+    } else {
+      publicRepos++;
+      publicCommits += commits;
+    }
+    
+    if (repo.primaryLanguage?.name) {
+      const lang = repo.primaryLanguage.name;
+      langTotals[lang] = (langTotals[lang] || 0) + 1;
+    }
+  }
+
+  let accountAge = conf.mockAge;
+  if (owner.createdAt) {
+    const ageInMs = Date.now() - new Date(owner.createdAt).getTime();
+    const ageInYears = (ageInMs / (1000 * 60 * 60 * 24 * 365.25)).toFixed(1);
+    accountAge = `${ageInYears}y`;
   }
 
   const entries = Object.entries(langTotals).sort(([, a], [, b]) => b - a).slice(0, 7);
@@ -236,31 +220,66 @@ async function main() {
     pct: totalLang > 0 ? Number(((count / totalLang) * 100).toFixed(1)) : 0
   }));
 
-  const githubData = {
-    repos: user.public_repos ?? 0,
-    followers: user.followers ?? 0,
-    following: user.following ?? 0,
-    stars,
-    commits: 387, // TODO: Replace with GraphQL fetch if reliable commits are needed
-    languages,
+  return {
+    handle: conf.handle,
+    type: conf.type,
+    accent: conf.accent,
+    accentB: conf.accentB,
+    stats: {
+      publicRepos,
+      publicCommits,
+      privateRepos,
+      privateCommits,
+      accountAge
+    },
+    languages
   };
+}
 
-  // 生成三张精确对齐 Astro 效果的 SVG
-  writeFileSync(join(OUT_DIR, 'stats.svg'), generateStatsSvg(githubData), 'utf-8');
-  writeFileSync(join(OUT_DIR, 'streak.svg'), generateStreakSvg(githubData), 'utf-8');
-  writeFileSync(join(OUT_DIR, 'langs.svg'), generateLangsSvg(githubData), 'utf-8');
+async function main() {
+  console.log('📡 Fetching GitHub data...');
+  if (!process.env.GH_TOKEN) {
+    console.warn(`
+      ⚠️ WARNING: process.env.GH_TOKEN is not set!
+      Generating fallback mock SVG components.
+    `);
+  }
 
-  // 更新 index.astro 里的 githubData，以供 Web 端同步渲染
+  rmSync(OUT_DIR, { recursive: true, force: true });
+  mkdirSync(OUT_DIR, { recursive: true });
+
+  const githubData = [];
+  for (const acc of ACCOUNTS_CONFIG) {
+    console.log(`fetching ${acc.handle}...`);
+    let data;
+    try {
+      data = await getAccountData(acc);
+    } catch (e: any) {
+       console.log(`Fallback mock data for ${acc.handle} due to: ${e.message}`);
+       data = { 
+         ...acc, 
+         stats: { publicRepos: 12, publicCommits: 312, privateRepos: 8, privateCommits: 145, accountAge: acc.mockAge }, 
+         languages: [ { name: "Dart", pct: 45.3 }, { name: "TypeScript", pct: 21.0 }, { name: "C++", pct: 15.5 } ] 
+       };
+    }
+    githubData.push(data);
+    
+    // Create SVGs
+    const uid = data.handle.replace(/[^a-zA-Z0-9]/g, '');
+    writeFileSync(join(OUT_DIR, `${data.handle}-stats-streak.svg`), generateStatsOverviewSvg(data, uid), 'utf-8');
+    writeFileSync(join(OUT_DIR, `${data.handle}-langs.svg`), generateLangsSvg(data, data.handle), 'utf-8');
+  }
+
+  // Update index.astro
   let indexAstro = readFileSync(INDEX_ASTRO_PATH, 'utf8');
   const dataString = JSON.stringify(githubData, null, 2).replace(/"([^"]+)":/g, '$1:');
-  indexAstro = indexAstro.replace(/const githubData = [\s\S]*?};\n/, `const githubData = ${dataString};\n`);
+  indexAstro = indexAstro.replace(/const githubData = [\s\S]*?;\n/, `const githubData = ${dataString};\n`);
   writeFileSync(INDEX_ASTRO_PATH, indexAstro, 'utf8');
 
-  console.log(`✅ Generated identical SVGs: stats.svg, streak.svg, langs.svg`);
-  console.log(`✅ Updated githubData in index.astro`);
+  console.log(`✅ Generated SVG resources`);
 }
 
 main().catch(e => {
-  console.error('❌ SVG generation failed:', e.message);
+  console.error(e);
   process.exit(1);
 });
