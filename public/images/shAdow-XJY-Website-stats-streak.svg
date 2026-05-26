@@ -27,15 +27,15 @@
   <line x1="16" y1="46" x2="484" y2="46" stroke="#21262d" stroke-width="1" />
   
       <g>
-        <text x="62.5" y="108" font-family="'JetBrains Mono', monospace" font-size="32" fill="#bc8cff" font-weight="700" text-anchor="middle">12</text>
+        <text x="62.5" y="108" font-family="'JetBrains Mono', monospace" font-size="32" fill="#bc8cff" font-weight="700" text-anchor="middle">4</text>
         <text x="62.5" y="128" font-family="'JetBrains Mono', monospace" font-size="9" fill="#8b949e" text-anchor="middle" letter-spacing="1.1">PUBLIC REPO</text>
       </g>
       <g>
-        <text x="187.5" y="108" font-family="'JetBrains Mono', monospace" font-size="32" fill="#79c0ff" font-weight="700" text-anchor="middle">8</text>
+        <text x="187.5" y="108" font-family="'JetBrains Mono', monospace" font-size="32" fill="#79c0ff" font-weight="700" text-anchor="middle">9</text>
         <text x="187.5" y="128" font-family="'JetBrains Mono', monospace" font-size="9" fill="#8b949e" text-anchor="middle" letter-spacing="1.1">PRIVATE REPO</text>
       </g>
       <g>
-        <text font-family="'JetBrains Mono', monospace" font-weight="700" text-anchor="middle"><tspan x="312.5" y="68" font-size="20" fill="#bc8cff">312</tspan><tspan x="312.5" y="88" font-size="14" fill="#8b949e">+</tspan><tspan x="312.5" y="108" font-size="20" fill="#79c0ff">145</tspan></text>
+        <text font-family="'JetBrains Mono', monospace" font-weight="700" text-anchor="middle"><tspan x="312.5" y="68" font-size="20" fill="#bc8cff">3</tspan><tspan x="312.5" y="88" font-size="14" fill="#8b949e">+</tspan><tspan x="312.5" y="108" font-size="20" fill="#79c0ff">342</tspan></text>
         <text x="312.5" y="128" font-family="'JetBrains Mono', monospace" font-size="9" fill="#8b949e" text-anchor="middle" letter-spacing="1.1">COMMITS</text>
       </g>
       <g>

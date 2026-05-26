@@ -11,26 +11,26 @@
   <line x1="16" y1="46" x2="484" y2="46" stroke="#eaeef2" stroke-width="1" />
   <rect x="20" y="62" width="460" height="10" rx="5" fill="#eaeef2" />
   
-      <rect x="20" y="62" width="208.37999999999997" height="10" fill="#00B4AB" rx="5"/>
-                   <rect x="223.37999999999997" y="62" width="5" height="10" fill="#00B4AB"/>
+      <rect x="20" y="62" width="204.24" height="10" fill="#f1e05a" rx="5"/>
+                   <rect x="219.24" y="62" width="5" height="10" fill="#f1e05a"/>
     
-      <rect x="228.37999999999997" y="62" width="96.6" height="10" fill="#3178c6"/>
+      <rect x="224.24" y="62" width="204.24" height="10" fill="#3178c6"/>
     
-      <rect x="324.97999999999996" y="62" width="71.3" height="10" fill="#f34b7d" rx="5"/>
-                  <rect x="324.97999999999996" y="62" width="5" height="10" fill="#f34b7d"/>
+      <rect x="428.48" y="62" width="51.06" height="10" fill="#00B4AB" rx="5"/>
+                  <rect x="428.48" y="62" width="5" height="10" fill="#00B4AB"/>
     
   <line x1="16" y1="86" x2="484" y2="86" stroke="#eaeef2" stroke-width="1" />
   
-      <circle cx="30" cy="105" r="4" fill="#00B4AB" />
-      <text x="44" y="109" font-family="'JetBrains Mono', monospace" font-size="12" fill="#24292f" font-weight="600">Dart</text>
-      <text x="480" y="109" font-family="'JetBrains Mono', monospace" font-size="12" fill="#57606a" text-anchor="end">45.3%</text>
+      <circle cx="30" cy="105" r="4" fill="#f1e05a" />
+      <text x="44" y="109" font-family="'JetBrains Mono', monospace" font-size="12" fill="#24292f" font-weight="600">JavaScript</text>
+      <text x="480" y="109" font-family="'JetBrains Mono', monospace" font-size="12" fill="#57606a" text-anchor="end">44.4%</text>
     
       <circle cx="30" cy="133" r="4" fill="#3178c6" />
       <text x="44" y="137" font-family="'JetBrains Mono', monospace" font-size="12" fill="#24292f" font-weight="600">TypeScript</text>
-      <text x="480" y="137" font-family="'JetBrains Mono', monospace" font-size="12" fill="#57606a" text-anchor="end">21%</text>
+      <text x="480" y="137" font-family="'JetBrains Mono', monospace" font-size="12" fill="#57606a" text-anchor="end">44.4%</text>
     
-      <circle cx="30" cy="161" r="4" fill="#f34b7d" />
-      <text x="44" y="165" font-family="'JetBrains Mono', monospace" font-size="12" fill="#24292f" font-weight="600">C++</text>
-      <text x="480" y="165" font-family="'JetBrains Mono', monospace" font-size="12" fill="#57606a" text-anchor="end">15.5%</text>
+      <circle cx="30" cy="161" r="4" fill="#00B4AB" />
+      <text x="44" y="165" font-family="'JetBrains Mono', monospace" font-size="12" fill="#24292f" font-weight="600">Dart</text>
+      <text x="480" y="165" font-family="'JetBrains Mono', monospace" font-size="12" fill="#57606a" text-anchor="end">11.1%</text>
     
 </svg>

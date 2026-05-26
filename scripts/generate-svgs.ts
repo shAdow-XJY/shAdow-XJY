@@ -23,6 +23,41 @@ const ACCOUNTS_CONFIG: any[] = [
   { handle: 'shAdow-XJY-Website', type: 'org', accent: '#bc8cff', accentB: '#79c0ff', mockAge: '1.5y' },
 ];
 
+const FALLBACK_DATA: Record<string, any> = {
+  'shAdow-XJY': {
+    stats: { publicRepos: 13, publicCommits: 427, privateRepos: 5, privateCommits: 9 },
+    languages: [
+      { name: "Dart", pct: 36.4 },
+      { name: "C++", pct: 18.2 },
+      { name: "C", pct: 9.1 },
+      { name: "Java", pct: 9.1 },
+      { name: "Vue", pct: 9.1 },
+      { name: "Astro", pct: 9.1 },
+      { name: "Batchfile", pct: 9.1 }
+    ]
+  },
+  'shAdow-XJY-Manager': {
+    stats: { publicRepos: 45, publicCommits: 538, privateRepos: 4, privateCommits: 59 },
+    languages: [
+      { name: "C++", pct: 38.1 },
+      { name: "Dart", pct: 23.8 },
+      { name: "Java", pct: 11.9 },
+      { name: "JavaScript", pct: 9.5 },
+      { name: "Vue", pct: 7.1 },
+      { name: "Python", pct: 4.8 },
+      { name: "HTML", pct: 4.8 }
+    ]
+  },
+  'shAdow-XJY-Website': {
+    stats: { publicRepos: 4, publicCommits: 3, privateRepos: 9, privateCommits: 342 },
+    languages: [
+      { name: "JavaScript", pct: 44.4 },
+      { name: "TypeScript", pct: 44.4 },
+      { name: "Dart", pct: 11.1 }
+    ]
+  }
+};
+
 type Theme = 'dark' | 'light';
 
 const THEME_COLORS = {
@@ -279,10 +314,11 @@ async function main() {
       data = await getAccountData(acc);
     } catch (e: any) {
        console.log(`Fallback mock data for ${acc.handle} due to: ${e.message}`);
+       const fallback = FALLBACK_DATA[acc.handle] || FALLBACK_DATA['shAdow-XJY'];
        data = { 
          ...acc, 
-         stats: { publicRepos: 12, publicCommits: 312, privateRepos: 8, privateCommits: 145, accountAge: acc.mockAge }, 
-         languages: [ { name: "Dart", pct: 45.3 }, { name: "TypeScript", pct: 21.0 }, { name: "C++", pct: 15.5 } ] 
+         stats: { ...fallback.stats, accountAge: acc.mockAge }, 
+         languages: fallback.languages
        };
     }
     githubData.push(data);
