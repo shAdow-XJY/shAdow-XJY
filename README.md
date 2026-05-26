@@ -27,26 +27,8 @@
 <details open>
 <summary><b>👤 Personal: @shAdow-XJY</b></summary>
 <div align="center">
-  <img width="100%" src="https://shAdow-XJY.github.io/shAdow-XJY/images/shAdow-XJY-stats-streak.svg" alt="shAdow-XJY Stats & Overview"/>
+  <img width="100%" src="https://shAdow-XJY.github.io/shAdow-XJY/images/shAdow-XJY-stats-streak.svg?sanitize=true&v=1" alt="shAdow-XJY Stats & Overview"/>
   <br/><br/>
-  <img width="100%" src="https://shAdow-XJY.github.io/shAdow-XJY/images/shAdow-XJY-langs.svg" alt="shAdow-XJY Languages"/>
-</div>
-</details>
-
-<details open>
-<summary><b>🏢 Org: @shAdow-XJY-Manager</b></summary>
-<div align="center">
-  <img width="100%" src="https://shAdow-XJY.github.io/shAdow-XJY/images/shAdow-XJY-Manager-stats-streak.svg" alt="shAdow-XJY-Manager Stats & Overview"/>
-  <br/><br/>
-  <img width="100%" src="https://shAdow-XJY.github.io/shAdow-XJY/images/shAdow-XJY-Manager-langs.svg" alt="shAdow-XJY-Manager Languages"/>
-</div>
-</details>
-
-<details open>
-<summary><b>🏢 Org: @shAdow-XJY-Website</b></summary>
-<div align="center">
-  <img width="100%" src="https://shAdow-XJY.github.io/shAdow-XJY/images/shAdow-XJY-Website-stats-streak.svg" alt="shAdow-XJY-Website Stats & Overview"/>
-  <br/><br/>
-  <img width="100%" src="https://shAdow-XJY.github.io/shAdow-XJY/images/shAdow-XJY-Website-langs.svg" alt="shAdow-XJY-Website Languages"/>
+  <img width="100%" src="https://shAdow-XJY.github.io/shAdow-XJY/images/shAdow-XJY-langs.svg?sanitize=true&v=1" alt="shAdow-XJY Languages"/>
 </div>
 </details>
