@@ -23,66 +23,89 @@ const ACCOUNTS_CONFIG: any[] = [
   { handle: 'shAdow-XJY-Website', type: 'org', accent: '#bc8cff', accentB: '#79c0ff', mockAge: '1.5y' },
 ];
 
+type Theme = 'dark' | 'light';
+
+const THEME_COLORS = {
+  dark: {
+    bg0: '#1c2128',
+    bg1: '#161b22',
+    border: '#30363d',
+    divider: '#21262d',
+    textPrimary: '#e6edf3',
+    textMuted: '#8b949e'
+  },
+  light: {
+    bg0: '#f6f8fa',
+    bg1: '#ffffff',
+    border: '#d0d7de',
+    divider: '#eaeef2',
+    textPrimary: '#24292f',
+    textMuted: '#57606a'
+  }
+};
+
 function escapeXml(str: string) { return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
-function generateStatsOverviewSvg({ handle, accent, accentB, stats, type }: any, uid: string) {
+function generateStatsOverviewSvg({ handle, accent, accentB, stats, type }: any, uid: string, theme: Theme = 'dark') {
+  const c = THEME_COLORS[theme];
   const W = 500, H = 170, colW = W / 4;
   
   // Custom rendering logic for each column to match requested color format
   const columns = [
     { label: "PUBLIC REPO", tag: `<text x="${colW * 0 + colW / 2}" y="108" font-family="'JetBrains Mono', monospace" font-size="32" fill="${accent}" font-weight="700" text-anchor="middle">${stats.publicRepos || 0}</text>`, labelCx: colW * 0 + colW / 2 },
     { label: "PRIVATE REPO", tag: `<text x="${colW * 1 + colW / 2}" y="108" font-family="'JetBrains Mono', monospace" font-size="32" fill="${accentB}" font-weight="700" text-anchor="middle">${stats.privateRepos || 0}</text>`, labelCx: colW * 1 + colW / 2 },
-    { label: "COMMITS", tag: `<text font-family="'JetBrains Mono', monospace" font-weight="700" text-anchor="middle"><tspan x="${colW * 2 + colW / 2}" y="78" font-size="20" fill="${accent}">${stats.publicCommits || 0}</tspan><tspan x="${colW * 2 + colW / 2}" y="98" font-size="14" fill="#8b949e">+</tspan><tspan x="${colW * 2 + colW / 2}" y="118" font-size="20" fill="${accentB}">${stats.privateCommits || 0}</tspan></text>`, labelCx: colW * 2 + colW / 2 },
+    { label: "COMMITS", tag: `<text font-family="'JetBrains Mono', monospace" font-weight="700" text-anchor="middle"><tspan x="${colW * 2 + colW / 2}" y="68" font-size="20" fill="${accent}">${stats.publicCommits || 0}</tspan><tspan x="${colW * 2 + colW / 2}" y="88" font-size="14" fill="${c.textMuted}">+</tspan><tspan x="${colW * 2 + colW / 2}" y="108" font-size="20" fill="${accentB}">${stats.privateCommits || 0}</tspan></text>`, labelCx: colW * 2 + colW / 2 },
     { label: "ACCOUNT AGE", tag: `<text x="${colW * 3 + colW / 2}" y="108" font-family="'JetBrains Mono', monospace" font-size="32" fill="${accentB}" font-weight="700" text-anchor="middle">${stats.accountAge || '0y'}</text>`, labelCx: colW * 3 + colW / 2 },
-  ].map((c) => {
+  ].map((col) => {
     return `
       <g>
-        ${c.tag}
-        <text x="${c.labelCx}" y="128" font-family="'JetBrains Mono', monospace" font-size="9" fill="#8b949e" text-anchor="middle" letter-spacing="1.1">${escapeXml(c.label)}</text>
+        ${col.tag}
+        <text x="${col.labelCx}" y="128" font-family="'JetBrains Mono', monospace" font-size="9" fill="${c.textMuted}" text-anchor="middle" letter-spacing="1.1">${escapeXml(col.label)}</text>
       </g>`;
   }).join('');
 
   return `<svg viewBox="0 0 ${W} ${H}" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;">
   <defs>
-    <linearGradient id="ss-bg-${uid}" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#1c2128" />
-      <stop offset="100%" stop-color="#161b22" />
+    <linearGradient id="ss-bg-${uid}-${theme}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${c.bg0}" />
+      <stop offset="100%" stop-color="${c.bg1}" />
     </linearGradient>
-    <linearGradient id="ss-acc-${uid}" x1="0" y1="0" x2="1" y2="0">
+    <linearGradient id="ss-acc-${uid}-${theme}" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%" stop-color="${accent}" />
       <stop offset="55%" stop-color="${accentB}" />
       <stop offset="100%" stop-color="${accentB}" stop-opacity="0" />
     </linearGradient>
-    <filter id="ss-glow-${uid}">
+    <filter id="ss-glow-${uid}-${theme}">
       <feGaussianBlur stdDeviation="2.5" result="blur" />
       <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
     </filter>
-    <clipPath id="clip-corners-${uid}">
+    <clipPath id="clip-corners-${uid}-${theme}">
       <rect width="${W}" height="${H}" rx="12" />
     </clipPath>
   </defs>
-  <g clip-path="url(#clip-corners-${uid})">
-    <rect width="${W}" height="${H}" rx="12" fill="url(#ss-bg-${uid})" stroke="#30363d" stroke-width="1" />
-    <rect width="${W * 0.68}" height="2" fill="url(#ss-acc-${uid})" filter="url(#ss-glow-${uid})" />
+  <g clip-path="url(#clip-corners-${uid}-${theme})">
+    <rect width="${W}" height="${H}" rx="12" fill="url(#ss-bg-${uid}-${theme})" stroke="${c.border}" stroke-width="1" />
+    <rect width="${W * 0.68}" height="2" fill="url(#ss-acc-${uid}-${theme})" filter="url(#ss-glow-${uid}-${theme})" />
   </g>
-  <rect width="${W}" height="${H}" rx="12" fill="none" stroke="#30363d" stroke-width="1" />
+  <rect width="${W}" height="${H}" rx="12" fill="none" stroke="${c.border}" stroke-width="1" />
   <text x="20" y="34" font-family="'JetBrains Mono', monospace" font-size="12.5" fill="${accent}" font-weight="600">@${escapeXml(handle)}</text>
   <text x="${W - 18}" y="34" font-family="'JetBrains Mono', monospace" font-size="10.5" fill="${accentB}" text-anchor="end" font-weight="500">stats &amp; overview</text>
-  <line x1="16" y1="46" x2="${W - 16}" y2="46" stroke="#21262d" stroke-width="1" />
+  <line x1="16" y1="46" x2="${W - 16}" y2="46" stroke="${c.divider}" stroke-width="1" />
   ${columns}
-  ${[1, 2, 3].map(i => `<line x1="${colW * i}" y1="56" x2="${colW * i}" y2="140" stroke="#21262d" stroke-width="1" />`).join('')}
-  <line x1="16" y1="143" x2="${W - 16}" y2="143" stroke="#21262d" stroke-width="1" />
-  <text x="${W / 2}" y="160" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8b949e" text-anchor="middle">activity (${new Date().getFullYear()})</text>
+  ${[1, 2, 3].map(i => `<line x1="${colW * i}" y1="56" x2="${colW * i}" y2="140" stroke="${c.divider}" stroke-width="1" />`).join('')}
+  <line x1="16" y1="143" x2="${W - 16}" y2="143" stroke="${c.divider}" stroke-width="1" />
+  <text x="${W / 2}" y="160" font-family="'JetBrains Mono', monospace" font-size="10" fill="${c.textMuted}" text-anchor="middle">activity (${new Date().getFullYear()})</text>
 </svg>`;
 }
 
-function generateLangsSvg({ languages, accent, accentB }: any, uid: string) {
+function generateLangsSvg({ languages, accent, accentB }: any, uid: string, theme: Theme = 'dark') {
+  const tc = THEME_COLORS[theme];
   const W = 500, BAR_Y = 62, BAR_H = 10, INNER_W = W - 40, LIST_START = 100, ROW_H = 28;
   const H = LIST_START + languages.length * ROW_H + 20;
 
   let segs = '', rows = '', currX = 20;
   languages.forEach(({ name, pct }: any, i: number) => {
-    const c = LANG_COLORS[name] || '#8b949e';
+    const c = LANG_COLORS[name] || tc.textMuted;
     const w = (pct / 100) * INNER_W;
     const isFirst = i === 0, isLast = i === languages.length - 1;
     segs += `
@@ -94,26 +117,26 @@ function generateLangsSvg({ languages, accent, accentB }: any, uid: string) {
     `;
     rows += `
       <circle cx="30" cy="${LIST_START + i * ROW_H + 5}" r="4" fill="${c}" />
-      <text x="44" y="${LIST_START + i * ROW_H + 9}" font-family="'JetBrains Mono', monospace" font-size="12" fill="#e6edf3" font-weight="600">${escapeXml(name)}</text>
-      <text x="${W - 20}" y="${LIST_START + i * ROW_H + 9}" font-family="'JetBrains Mono', monospace" font-size="12" fill="#8b949e" text-anchor="end">${pct}%</text>
+      <text x="44" y="${LIST_START + i * ROW_H + 9}" font-family="'JetBrains Mono', monospace" font-size="12" fill="${tc.textPrimary}" font-weight="600">${escapeXml(name)}</text>
+      <text x="${W - 20}" y="${LIST_START + i * ROW_H + 9}" font-family="'JetBrains Mono', monospace" font-size="12" fill="${tc.textMuted}" text-anchor="end">${pct}%</text>
     `;
     currX += w;
   });
 
   return `<svg viewBox="0 0 ${W} ${H}" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;">
   <defs>
-    <linearGradient id="l-bg-${uid}" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#1c2128" />
-      <stop offset="100%" stop-color="#161b22" />
+    <linearGradient id="l-bg-${uid}-${theme}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${tc.bg0}" />
+      <stop offset="100%" stop-color="${tc.bg1}" />
     </linearGradient>
   </defs>
-  <rect width="${W}" height="${H}" rx="12" fill="url(#l-bg-${uid})" stroke="#30363d" stroke-width="1" />
+  <rect width="${W}" height="${H}" rx="12" fill="url(#l-bg-${uid}-${theme})" stroke="${tc.border}" stroke-width="1" />
   <text x="20" y="34" font-family="'JetBrains Mono', monospace" font-size="12.5" fill="${accent}" font-weight="600">@${escapeXml(uid.replace(/[^A-Za-z\-]/g, ''))}</text>
-  <text x="${W - 18}" y="34" font-family="'JetBrains Mono', monospace" font-size="10.5" fill="#8b949e" text-anchor="end" font-weight="500">top languages</text>
-  <line x1="16" y1="46" x2="${W - 16}" y2="46" stroke="#21262d" stroke-width="1" />
-  <rect x="20" y="${BAR_Y}" width="${INNER_W}" height="${BAR_H}" rx="5" fill="#21262d" />
+  <text x="${W - 18}" y="34" font-family="'JetBrains Mono', monospace" font-size="10.5" fill="${tc.textMuted}" text-anchor="end" font-weight="500">top languages</text>
+  <line x1="16" y1="46" x2="${W - 16}" y2="46" stroke="${tc.divider}" stroke-width="1" />
+  <rect x="20" y="${BAR_Y}" width="${INNER_W}" height="${BAR_H}" rx="5" fill="${tc.divider}" />
   ${segs}
-  <line x1="16" y1="86" x2="${W - 16}" y2="86" stroke="#21262d" stroke-width="1" />
+  <line x1="16" y1="86" x2="${W - 16}" y2="86" stroke="${tc.divider}" stroke-width="1" />
   ${rows}
 </svg>`;
 }
@@ -264,10 +287,20 @@ async function main() {
     }
     githubData.push(data);
     
-    // Create SVGs
+    // Create SVGs for both themes
     const uid = data.handle.replace(/[^a-zA-Z0-9]/g, '');
-    writeFileSync(join(OUT_DIR, `${data.handle}-stats-streak.svg`), generateStatsOverviewSvg(data, uid), 'utf-8');
-    writeFileSync(join(OUT_DIR, `${data.handle}-langs.svg`), generateLangsSvg(data, data.handle), 'utf-8');
+    
+    // Dark theme SVGs
+    writeFileSync(join(OUT_DIR, `${data.handle}-stats-streak-dark.svg`), generateStatsOverviewSvg(data, uid, 'dark'), 'utf-8');
+    writeFileSync(join(OUT_DIR, `${data.handle}-langs-dark.svg`), generateLangsSvg(data, data.handle, 'dark'), 'utf-8');
+    
+    // Light theme SVGs
+    writeFileSync(join(OUT_DIR, `${data.handle}-stats-streak-light.svg`), generateStatsOverviewSvg(data, uid, 'light'), 'utf-8');
+    writeFileSync(join(OUT_DIR, `${data.handle}-langs-light.svg`), generateLangsSvg(data, data.handle, 'light'), 'utf-8');
+    
+    // Also keep the old files for backward compatibility (default to dark)
+    writeFileSync(join(OUT_DIR, `${data.handle}-stats-streak.svg`), generateStatsOverviewSvg(data, uid, 'dark'), 'utf-8');
+    writeFileSync(join(OUT_DIR, `${data.handle}-langs.svg`), generateLangsSvg(data, data.handle, 'dark'), 'utf-8');
   }
 
   // Update index.astro

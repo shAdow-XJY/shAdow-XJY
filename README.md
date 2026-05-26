@@ -27,8 +27,16 @@
 <details open>
 <summary><b>👤 Personal: @shAdow-XJY</b></summary>
 <div align="center">
-  <img width="100%" src="https://shAdow-XJY.github.io/shAdow-XJY/images/shAdow-XJY-stats-streak.svg?sanitize=true&v=1" alt="shAdow-XJY Stats & Overview"/>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://shAdow-XJY.github.io/shAdow-XJY/images/shAdow-XJY-stats-streak-dark.svg?sanitize=true&v=2" width="600">
+    <source media="(prefers-color-scheme: light)" srcset="https://shAdow-XJY.github.io/shAdow-XJY/images/shAdow-XJY-stats-streak-light.svg?sanitize=true&v=2" width="600">
+    <img src="https://shAdow-XJY.github.io/shAdow-XJY/images/shAdow-XJY-stats-streak-dark.svg?sanitize=true&v=2" alt="shAdow-XJY Stats & Overview" width="600"/>
+  </picture>
   <br/><br/>
-  <img width="100%" src="https://shAdow-XJY.github.io/shAdow-XJY/images/shAdow-XJY-langs.svg?sanitize=true&v=1" alt="shAdow-XJY Languages"/>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://shAdow-XJY.github.io/shAdow-XJY/images/shAdow-XJY-langs-dark.svg?sanitize=true&v=2" width="600">
+    <source media="(prefers-color-scheme: light)" srcset="https://shAdow-XJY.github.io/shAdow-XJY/images/shAdow-XJY-langs-light.svg?sanitize=true&v=2" width="600">
+    <img src="https://shAdow-XJY.github.io/shAdow-XJY/images/shAdow-XJY-langs-dark.svg?sanitize=true&v=2" alt="shAdow-XJY Languages" width="600"/>
+  </picture>
 </div>
 </details>

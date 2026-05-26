@@ -1,0 +1,13 @@
+{
+  "profile": {
+    "developer": "Utvecklare · Skapare · Grundare",
+    "earth": "Jorden",
+    "website": "Webbplats",
+    "blog": "Blogg",
+    "github": "GitHub"
+  },
+  "theme": {
+    "dark": "Mörk",
+    "light": "Ljus"
+  }
+}

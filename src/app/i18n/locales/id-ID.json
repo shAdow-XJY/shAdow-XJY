@@ -1,0 +1,13 @@
+{
+  "profile": {
+    "developer": "Pengembang · Kreator · Pendiri",
+    "earth": "Bumi",
+    "website": "Situs Web",
+    "blog": "Blog",
+    "github": "GitHub"
+  },
+  "theme": {
+    "dark": "Gelap",
+    "light": "Terang"
+  }
+}

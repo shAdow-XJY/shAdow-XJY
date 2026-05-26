@@ -1,13 +1,13 @@
 {
   "profile": {
-    "developer": "开发者 · 创作者 · 创始人",
+    "developer": "開發者 · 創作者 · 創始人",
     "earth": "地球",
-    "website": "官网",
+    "website": "官網",
     "blog": "博客",
     "github": "GitHub"
   },
   "theme": {
     "dark": "深色",
-    "light": "浅色"
+    "light": "淺色"
   }
 }

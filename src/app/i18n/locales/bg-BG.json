@@ -1,0 +1,13 @@
+{
+  "profile": {
+    "developer": "Разработчик · Творец · Основател",
+    "earth": "Земя",
+    "website": "Уебсайт",
+    "blog": "Блог",
+    "github": "GitHub"
+  },
+  "theme": {
+    "dark": "Тъмен",
+    "light": "Светъл"
+  }
+}

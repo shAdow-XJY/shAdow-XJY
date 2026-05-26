@@ -1,0 +1,36 @@
+<svg viewBox="0 0 500 204" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+  <defs>
+    <linearGradient id="l-bg-shAdow-XJY-Manager-light" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f6f8fa" />
+      <stop offset="100%" stop-color="#ffffff" />
+    </linearGradient>
+  </defs>
+  <rect width="500" height="204" rx="12" fill="url(#l-bg-shAdow-XJY-Manager-light)" stroke="#d0d7de" stroke-width="1" />
+  <text x="20" y="34" font-family="'JetBrains Mono', monospace" font-size="12.5" fill="#f0883e" font-weight="600">@shAdow-XJY-Manager</text>
+  <text x="482" y="34" font-family="'JetBrains Mono', monospace" font-size="10.5" fill="#57606a" text-anchor="end" font-weight="500">top languages</text>
+  <line x1="16" y1="46" x2="484" y2="46" stroke="#eaeef2" stroke-width="1" />
+  <rect x="20" y="62" width="460" height="10" rx="5" fill="#eaeef2" />
+  
+      <rect x="20" y="62" width="208.37999999999997" height="10" fill="#00B4AB" rx="5"/>
+                   <rect x="223.37999999999997" y="62" width="5" height="10" fill="#00B4AB"/>
+    
+      <rect x="228.37999999999997" y="62" width="96.6" height="10" fill="#3178c6"/>
+    
+      <rect x="324.97999999999996" y="62" width="71.3" height="10" fill="#f34b7d" rx="5"/>
+                  <rect x="324.97999999999996" y="62" width="5" height="10" fill="#f34b7d"/>
+    
+  <line x1="16" y1="86" x2="484" y2="86" stroke="#eaeef2" stroke-width="1" />
+  
+      <circle cx="30" cy="105" r="4" fill="#00B4AB" />
+      <text x="44" y="109" font-family="'JetBrains Mono', monospace" font-size="12" fill="#24292f" font-weight="600">Dart</text>
+      <text x="480" y="109" font-family="'JetBrains Mono', monospace" font-size="12" fill="#57606a" text-anchor="end">45.3%</text>
+    
+      <circle cx="30" cy="133" r="4" fill="#3178c6" />
+      <text x="44" y="137" font-family="'JetBrains Mono', monospace" font-size="12" fill="#24292f" font-weight="600">TypeScript</text>
+      <text x="480" y="137" font-family="'JetBrains Mono', monospace" font-size="12" fill="#57606a" text-anchor="end">21%</text>
+    
+      <circle cx="30" cy="161" r="4" fill="#f34b7d" />
+      <text x="44" y="165" font-family="'JetBrains Mono', monospace" font-size="12" fill="#24292f" font-weight="600">C++</text>
+      <text x="480" y="165" font-family="'JetBrains Mono', monospace" font-size="12" fill="#57606a" text-anchor="end">15.5%</text>
+    
+</svg>

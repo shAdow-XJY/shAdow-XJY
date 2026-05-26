@@ -1,0 +1,13 @@
+{
+  "profile": {
+    "developer": "개발자 · 크리에이터 · 창설자",
+    "earth": "지구",
+    "website": "웹사이트",
+    "blog": "블로그",
+    "github": "GitHub"
+  },
+  "theme": {
+    "dark": "어두운",
+    "light": "밝은"
+  }
+}

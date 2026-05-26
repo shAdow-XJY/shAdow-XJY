@@ -1,0 +1,13 @@
+{
+  "profile": {
+    "developer": "Kehittäjä · Luoja · Perustaja",
+    "earth": "Maa",
+    "website": "Verkkosivusto",
+    "blog": "Blogi",
+    "github": "GitHub"
+  },
+  "theme": {
+    "dark": "Tumma",
+    "light": "Vaalea"
+  }
+}

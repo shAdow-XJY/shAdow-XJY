@@ -1,9 +1,13 @@
 {
-  "profile.developer": "デベロッパー · クリエイター · 創設者",
-  "profile.earth": "地球",
-  "profile.website": "サイト",
-  "profile.blog": "ブログ",
-  "profile.github": "GitHub",
-  "theme.dark": "Dark",
-  "theme.light": "Light"
+  "profile": {
+    "developer": "開発者 · クリエイター · 創設者",
+    "earth": "地球",
+    "website": "公式サイト",
+    "blog": "ブログ",
+    "github": "GitHub"
+  },
+  "theme": {
+    "dark": "ダーク",
+    "light": "ライト"
+  }
 }

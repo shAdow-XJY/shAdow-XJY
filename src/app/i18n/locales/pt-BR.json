@@ -1,0 +1,13 @@
+{
+  "profile": {
+    "developer": "Desenvolvedor · Criador · Fundador",
+    "earth": "Terra",
+    "website": "Website",
+    "blog": "Blog",
+    "github": "GitHub"
+  },
+  "theme": {
+    "dark": "Escuro",
+    "light": "Claro"
+  }
+}
