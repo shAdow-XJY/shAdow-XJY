@@ -24,7 +24,7 @@
   </a>
 </p>
 
-<details open>
+<details>
 <summary><b>👤 Personal: @shAdow-XJY</b></summary>
 <div align="center">
   <picture>
