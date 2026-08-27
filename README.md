@@ -1,7 +1,7 @@
 <h1 align="center">Hi 👋, I'm shAdow-XJY!</h1>
 
 <p align="center">
-  Updated <strong>2026.08.12</strong>
+  Updated <strong>2026.08.27</strong>
 </p>
 
 <p align="center">
