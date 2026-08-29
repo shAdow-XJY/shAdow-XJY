@@ -60,6 +60,20 @@ export const githubData = [
       { name: "TypeScript", pct: 44.4 },
       { name: "Dart", pct: 11.1 }
     ]
+  },
+  {
+    handle: "shAdow-XJY-Games",
+    type: "org",
+    accent: "#478cbf",
+    accentB: "#a5efac",
+    stats: {
+      publicRepos: 0,
+      publicCommits: 0,
+      privateRepos: 0,
+      privateCommits: 0,
+      accountAge: "0.0y"
+    },
+    languages: []
   }
 ];
 
@@ -76,5 +90,8 @@ export const dockSets = [
     { icon: 'blog', label: 'Blog', href: 'https://shadow-xjy-website.github.io/' },
     { icon: 'website', label: 'Website', href: 'https://shadowplusing.us/' },
     { icon: 'github', label: 'GitHub', href: 'https://github.com/shAdow-XJY-Website' }
+  ],
+  [
+    { icon: 'github', label: 'GitHub', href: 'https://github.com/shAdow-XJY-Games' }
   ]
 ];

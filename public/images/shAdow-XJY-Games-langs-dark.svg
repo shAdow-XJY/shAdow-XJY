@@ -1,0 +1,16 @@
+<svg viewBox="0 0 500 120" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+  <defs>
+    <linearGradient id="l-bg-shAdow-XJY-Games-dark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c2128" />
+      <stop offset="100%" stop-color="#161b22" />
+    </linearGradient>
+  </defs>
+  <rect width="500" height="120" rx="12" fill="url(#l-bg-shAdow-XJY-Games-dark)" stroke="#30363d" stroke-width="1" />
+  <text x="20" y="34" font-family="'JetBrains Mono', monospace" font-size="12.5" fill="#478cbf" font-weight="600">@shAdow-XJY-Games</text>
+  <text x="482" y="34" font-family="'JetBrains Mono', monospace" font-size="10.5" fill="#8b949e" text-anchor="end" font-weight="500">top languages</text>
+  <line x1="16" y1="46" x2="484" y2="46" stroke="#21262d" stroke-width="1" />
+  <rect x="20" y="62" width="460" height="10" rx="5" fill="#21262d" />
+  
+  <line x1="16" y1="86" x2="484" y2="86" stroke="#21262d" stroke-width="1" />
+  
+</svg>

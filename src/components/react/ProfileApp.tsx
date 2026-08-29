@@ -64,17 +64,18 @@ function FloatingButtons({ isDark, onThemeToggle }: { isDark: boolean; onThemeTo
   const activeLangLabel = LANGS.find(l => l.code === locale)?.label || 'English';
 
   return (
-    <div style={{ position: 'fixed', top: '1.5rem', right: '1.5rem', display: 'flex', gap: '0.75rem', zIndex: 50 }}>
+    <div className="floating-controls">
       {/* Theme Toggle */}
       <button 
         onClick={onThemeToggle}
         aria-label="Toggle theme" 
-        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.625rem 1rem', borderRadius: '1rem', background: isDark ? 'rgba(22,27,34,0.92)' : 'rgba(255,255,255,0.92)', border: `1px solid ${isDark ? '#30363d' : '#d0d7de'}`, backdropFilter: 'blur(16px)', boxShadow: isDark ? '0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04)' : '0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.8)', cursor: 'pointer' }}
+        className="floating-control"
+        style={{ borderRadius: '1rem', background: isDark ? 'rgba(22,27,34,0.92)' : 'rgba(255,255,255,0.92)', border: `1px solid ${isDark ? '#30363d' : '#d0d7de'}`, backdropFilter: 'blur(16px)', boxShadow: isDark ? '0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04)' : '0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.8)', cursor: 'pointer' }}
       >
         <span style={{ color: isDark ? '#f0883e' : '#57606a', display: 'flex' }}>
           {isDark ? <Moon size={15} /> : <Sun size={15} />}
         </span>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px', color: isDark ? '#e6edf3' : '#24292f', letterSpacing: '0.04em', fontWeight: 500 }}>
+        <span className="floating-control-label" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px', color: isDark ? '#e6edf3' : '#24292f', letterSpacing: '0.04em', fontWeight: 500 }}>
           {isDark ? t('theme.dark') : t('theme.light')}
         </span>
       </button>
@@ -84,13 +85,14 @@ function FloatingButtons({ isDark, onThemeToggle }: { isDark: boolean; onThemeTo
         <button 
           onClick={() => setLangOpen(!langOpen)}
           aria-label="Switch language" 
-          style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.625rem 1rem', borderRadius: '1rem', background: isDark ? 'rgba(22,27,34,0.92)' : 'rgba(255,255,255,0.92)', border: `1px solid ${isDark ? '#30363d' : '#d0d7de'}`, backdropFilter: 'blur(16px)', boxShadow: isDark ? '0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04)' : '0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.8)', cursor: 'pointer' }}
+          className="floating-control"
+          style={{ borderRadius: '1rem', background: isDark ? 'rgba(22,27,34,0.92)' : 'rgba(255,255,255,0.92)', border: `1px solid ${isDark ? '#30363d' : '#d0d7de'}`, backdropFilter: 'blur(16px)', boxShadow: isDark ? '0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04)' : '0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.8)', cursor: 'pointer' }}
         >
           <span style={{ color: '#58a6ff', display: 'flex' }}><Globe size={15} /></span>
-          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px', color: isDark ? '#e6edf3' : '#24292f', letterSpacing: '0.04em', fontWeight: 500 }}>
+          <span className="floating-control-label" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '11px', color: isDark ? '#e6edf3' : '#24292f', letterSpacing: '0.04em', fontWeight: 500 }}>
             {activeLangLabel}
           </span>
-          <span style={{ color: '#8b949e', display: 'flex', marginLeft: '0.25rem' }}>
+          <span className="floating-control-caret" style={{ color: '#8b949e', display: 'flex', marginLeft: '0.25rem' }}>
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
           </span>
         </button>
@@ -127,21 +129,10 @@ function MainContent({ baseUrl, isDark, onThemeToggle }: { baseUrl: string; isDa
   // Theme colors
   const c = isDark ? DARK_THEME : LIGHT_THEME;
 
-  const dSets = [
-    [
-      { icon: 'website', label: t('profile.website'), href: 'https://shadow-xjy.github.io/' },
-      { icon: 'github', label: t('profile.github'), href: 'https://github.com/shAdow-XJY' }
-    ],
-    [
-      { icon: 'website', label: t('profile.website'), href: 'https://shadow-xjy-manager.github.io/' },
-      { icon: 'github', label: t('profile.github'), href: 'https://github.com/shAdow-XJY-Manager' }
-    ],
-    [
-      { icon: 'blog', label: t('profile.blog'), href: 'https://shadow-xjy-website.github.io/' },
-      { icon: 'website', label: t('profile.website'), href: 'https://shadowplusing.us/' },
-      { icon: 'github', label: t('profile.github'), href: 'https://github.com/shAdow-XJY-Website' }
-    ]
-  ];
+  const dSets = dockSets.map(links => links.map(link => ({
+    ...link,
+    label: link.icon === 'blog' ? t('profile.blog') : link.icon === 'website' ? t('profile.website') : t('profile.github')
+  })));
   
   const activeLinks = dSets[activeIndex];
 
@@ -155,7 +146,7 @@ function MainContent({ baseUrl, isDark, onThemeToggle }: { baseUrl: string; isDa
       <main style={{ position: 'relative', zIndex: 10, maxWidth: '42rem', margin: '0 auto', padding: '5rem 1rem 12rem' }}>
         <header className="text-center mb-12">
           <div className="relative mb-6 flex justify-center">
-            <div id="avatar-glow" aria-hidden="true" style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: `radial-gradient(circle, ${accentB}40 0%, ${accent}20 50%, transparent 70%)`, transform: 'scale(1.5)', filter: 'blur(14px)', transition: 'background 0.4s ease' }}></div>
+            <div id="avatar-glow" aria-hidden="true" style={{ position: 'absolute', top: '50%', left: '50%', width: '96px', height: '96px', borderRadius: '50%', background: `radial-gradient(circle, ${accentB}40 0%, ${accent}20 50%, transparent 70%)`, transform: 'translate(-50%, -50%) scale(1.5)', filter: 'blur(14px)', transition: 'background 0.4s ease' }}></div>
             <div id="avatar-ring" style={{ position: 'relative', borderRadius: '50%', padding: '3px', background: `linear-gradient(135deg, ${accent} 0%, ${accentB} 50%, ${accent} 100%)`, display: 'inline-block', transition: 'background 0.4s ease' }}>
               <img src="https://github.com/shAdow-XJY.png?size=200" alt="shAdow-XJY avatar" width="96" height="96" loading="eager" style={{ display: 'block', width: '96px', height: '96px', borderRadius: '50%', background: c.cardBg1, objectFit: 'cover', position: 'relative', zIndex: 2, transition: 'background 0.3s' }} />
             </div>
@@ -175,7 +166,7 @@ function MainContent({ baseUrl, isDark, onThemeToggle }: { baseUrl: string; isDa
           </div>
         </header>
 
-        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '2rem', padding: '0.25rem', borderRadius: '0.75rem', background: c.cardBg1, border: `1px solid ${c.cardBorder}`, overflowX: 'auto', transition: 'background 0.3s, border-color 0.3s' }}>
+        <div style={{ display: 'flex', gap: '0.5rem', maxWidth: '100%', minWidth: 0, marginBottom: '2rem', padding: '0.25rem', borderRadius: '0.75rem', background: c.cardBg1, border: `1px solid ${c.cardBorder}`, overflowX: 'auto', transition: 'background 0.3s, border-color 0.3s' }}>
           {githubData.map((acc, index) => (
             <button 
               key={acc.handle}

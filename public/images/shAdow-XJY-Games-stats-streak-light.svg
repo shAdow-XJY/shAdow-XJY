@@ -1,0 +1,48 @@
+<svg viewBox="0 0 500 170" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+  <defs>
+    <linearGradient id="ss-bg-shAdowXJYGames-light" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f6f8fa" />
+      <stop offset="100%" stop-color="#ffffff" />
+    </linearGradient>
+    <linearGradient id="ss-acc-shAdowXJYGames-light" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#478cbf" />
+      <stop offset="55%" stop-color="#a5efac" />
+      <stop offset="100%" stop-color="#a5efac" stop-opacity="0" />
+    </linearGradient>
+    <filter id="ss-glow-shAdowXJYGames-light">
+      <feGaussianBlur stdDeviation="2.5" result="blur" />
+      <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+    <clipPath id="clip-corners-shAdowXJYGames-light">
+      <rect width="500" height="170" rx="12" />
+    </clipPath>
+  </defs>
+  <g clip-path="url(#clip-corners-shAdowXJYGames-light)">
+    <rect width="500" height="170" rx="12" fill="url(#ss-bg-shAdowXJYGames-light)" stroke="#d0d7de" stroke-width="1" />
+    <rect width="340" height="2" fill="url(#ss-acc-shAdowXJYGames-light)" filter="url(#ss-glow-shAdowXJYGames-light)" />
+  </g>
+  <rect width="500" height="170" rx="12" fill="none" stroke="#d0d7de" stroke-width="1" />
+  <text x="20" y="34" font-family="'JetBrains Mono', monospace" font-size="12.5" fill="#478cbf" font-weight="600">@shAdow-XJY-Games</text>
+  <text x="482" y="34" font-family="'JetBrains Mono', monospace" font-size="10.5" fill="#a5efac" text-anchor="end" font-weight="500">stats &amp; overview</text>
+  <line x1="16" y1="46" x2="484" y2="46" stroke="#eaeef2" stroke-width="1" />
+  
+      <g>
+        <text x="62.5" y="108" font-family="'JetBrains Mono', monospace" font-size="32" fill="#478cbf" font-weight="700" text-anchor="middle">0</text>
+        <text x="62.5" y="128" font-family="'JetBrains Mono', monospace" font-size="9" fill="#57606a" text-anchor="middle" letter-spacing="1.1">PUBLIC REPO</text>
+      </g>
+      <g>
+        <text x="187.5" y="108" font-family="'JetBrains Mono', monospace" font-size="32" fill="#a5efac" font-weight="700" text-anchor="middle">0</text>
+        <text x="187.5" y="128" font-family="'JetBrains Mono', monospace" font-size="9" fill="#57606a" text-anchor="middle" letter-spacing="1.1">PRIVATE REPO</text>
+      </g>
+      <g>
+        <text font-family="'JetBrains Mono', monospace" font-weight="700" text-anchor="middle"><tspan x="312.5" y="68" font-size="20" fill="#478cbf">0</tspan><tspan x="312.5" y="88" font-size="14" fill="#57606a">+</tspan><tspan x="312.5" y="108" font-size="20" fill="#a5efac">0</tspan></text>
+        <text x="312.5" y="128" font-family="'JetBrains Mono', monospace" font-size="9" fill="#57606a" text-anchor="middle" letter-spacing="1.1">COMMITS</text>
+      </g>
+      <g>
+        <text x="437.5" y="108" font-family="'JetBrains Mono', monospace" font-size="32" fill="#a5efac" font-weight="700" text-anchor="middle">0.0y</text>
+        <text x="437.5" y="128" font-family="'JetBrains Mono', monospace" font-size="9" fill="#57606a" text-anchor="middle" letter-spacing="1.1">ACCOUNT AGE</text>
+      </g>
+  <line x1="125" y1="56" x2="125" y2="140" stroke="#eaeef2" stroke-width="1" /><line x1="250" y1="56" x2="250" y2="140" stroke="#eaeef2" stroke-width="1" /><line x1="375" y1="56" x2="375" y2="140" stroke="#eaeef2" stroke-width="1" />
+  <line x1="16" y1="143" x2="484" y2="143" stroke="#eaeef2" stroke-width="1" />
+  <text x="250" y="160" font-family="'JetBrains Mono', monospace" font-size="10" fill="#57606a" text-anchor="middle">activity (2026)</text>
+</svg>

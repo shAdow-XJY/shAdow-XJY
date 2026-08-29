@@ -21,6 +21,7 @@ const ACCOUNTS_CONFIG: any[] = [
   { handle: 'shAdow-XJY', type: 'personal', accent: '#58a6ff', accentB: '#3fb950', mockAge: '5.8y' },
   { handle: 'shAdow-XJY-Manager', type: 'org', accent: '#f0883e', accentB: '#ffa657', mockAge: '2.1y' },
   { handle: 'shAdow-XJY-Website', type: 'org', accent: '#bc8cff', accentB: '#79c0ff', mockAge: '1.5y' },
+  { handle: 'shAdow-XJY-Games', type: 'org', accent: '#478cbf', accentB: '#a5efac', mockAge: '0.0y' },
 ];
 
 const FALLBACK_DATA: Record<string, any> = {
@@ -55,6 +56,10 @@ const FALLBACK_DATA: Record<string, any> = {
       { name: "TypeScript", pct: 44.4 },
       { name: "Dart", pct: 11.1 }
     ]
+  },
+  'shAdow-XJY-Games': {
+    stats: { publicRepos: 0, publicCommits: 0, privateRepos: 0, privateCommits: 0 },
+    languages: []
   }
 };
 
@@ -80,6 +85,14 @@ const THEME_COLORS = {
 };
 
 function escapeXml(str: string) { return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+function generateUpdatedSvg(theme: Theme) {
+  const date = new Date().toISOString().slice(0, 10).replace(/-/g, '.');
+  const color = THEME_COLORS[theme].textMuted;
+  return `<svg viewBox="0 0 170 24" width="170" height="24" xmlns="http://www.w3.org/2000/svg">
+  <text x="85" y="17" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" fill="${color}" text-anchor="middle">Updated <tspan font-weight="700">${date}</tspan></text>
+</svg>`;
+}
 
 function generateStatsOverviewSvg({ handle, accent, accentB, stats, type }: any, uid: string, theme: Theme = 'dark') {
   const c = THEME_COLORS[theme];
@@ -305,6 +318,8 @@ async function main() {
 
   rmSync(OUT_DIR, { recursive: true, force: true });
   mkdirSync(OUT_DIR, { recursive: true });
+  writeFileSync(join(OUT_DIR, 'updated-dark.svg'), generateUpdatedSvg('dark'), 'utf-8');
+  writeFileSync(join(OUT_DIR, 'updated-light.svg'), generateUpdatedSvg('light'), 'utf-8');
 
   const githubData = [];
   for (const acc of ACCOUNTS_CONFIG) {
